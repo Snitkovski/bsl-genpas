@@ -22,16 +22,16 @@ jobs:
       
     # DB 1C creation
     - name: DB initialization
-      run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
       shell: cmd
+      run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
 
     - name: Syntax Check
-      run: vrunner syntax-check --settings ./vb-params.json
       shell: cmd
+      run: vrunner syntax-check --settings ./vb-params.json
 
     # - name: Module testing
-      # run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
       # shell: cmd
+      # run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
 
     - name: Allure report - sending to artifacts
       uses: actions/upload-artifact@master
@@ -40,31 +40,32 @@ jobs:
         path: build/allure
 
 
-  # sonar-analyze:
-    # if: github.repository == 'Snitkovski/bsl-genpas'
-    # runs-on: ubuntu-latest
-    # steps:
+  sonar-analyze:
+    if: github.repository == 'Snitkovski/bsl-genpas'
+    runs-on: ubuntu-latest
+    steps:
       # Actualization
-      # - uses: actions/checkout@master
+      - uses: actions/checkout@master
 
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
-      # - name: Get current branch name
-        # shell: bash
-        # run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        # id: extract_branch
+      - name: Get current branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
-      # - name: Sonar-scanner install
-        # uses: warchant/setup-sonar-scanner@v1
-        # env:
+      - name: Sonar-scanner install
+        uses: warchant/setup-sonar-scanner@v1
+        env:
           # Set off installation security (at 2020-10-01)
-          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
-      # - name: SonarQube analyze (branch)
-        # if: github.event_name == 'push'
-        # run: sonar-scanner
-            # -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-            # -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
-            # -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
+      - name: SonarQube analyze (branch)
+        if: github.event_name == 'push'
+        run: sonar-scanner
+            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
+            -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+            -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
+
 
   # allure:
     # needs: testing
