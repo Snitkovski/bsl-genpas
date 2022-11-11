@@ -1,0 +1,93 @@
+# MIT License
+# Copyright (C) 2020 Tymko Oleg <olegtymko@yandex.ru> and contributors
+# All rights reserved.
+
+name: CI Pipeline
+
+on: [push]
+
+env:
+  BASE_PATH: ./bsl-genpas
+
+jobs:
+  testing:
+    runs-on: self-hosted
+    steps:
+      # Actualization
+      - uses: actions/checkout@v2
+      
+      # DB 1C creation
+      - name: DB initialization
+        run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
+
+      - name: Syntax Check
+        run: vrunner syntax-check --settings ./vb-params.json
+
+      - name: Module testing
+        run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
+
+      - name: Allure report - ыутвштп ещ фкешафсеы
+        uses: actions/upload-artifact@master
+        with:
+          name: allure
+          path: build/allure
+
+  # sonar-analyze:
+    # if: github.repository == 'silverbulleters/bsl-actions-template'
+    # runs-on: ubuntu-18.04
+    # steps:
+      # Actualization
+      # - uses: actions/checkout@v2
+
+      # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
+      # - name: Get current branch name
+        # shell: bash
+        # run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        # id: extract_branch
+
+      # - name: Sonar-scanner install
+        # uses: warchant/setup-sonar-scanner@v1
+        # env:
+          # Set off installation security (at 2020-10-01)
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      # - name: SonarQube analyze (branch)
+        # if: github.event_name == 'push'
+        # run: sonar-scanner
+            # -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
+            # -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+            # -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
+
+  # allure:
+    # needs: testing
+    # runs-on: ubuntu-18.04
+    # steps:
+      # - name: Download Allure-report from artifacts
+        # uses: actions/download-artifact@master
+        # with:
+          # name: allure
+          # path: build/allure
+
+      # - name: Get history
+        # uses: actions/checkout@v2
+        # if: always()
+        # continue-on-error: true
+        # with:
+          # ref: gh-pages
+          # path: gh-pages
+
+      # - name: History processing
+        # uses: simple-elf/allure-report-action@master
+        # if: always()
+        # with:
+          # allure_results: build/allure
+          # allure_history: allure-history
+
+      # - name: Publishing to GitHub Pages
+        # if: always()
+        # uses: peaceiris/actions-gh-pages@v2
+        # env:
+          # PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PUBLISH_BRANCH: gh-pages
+          # PUBLISH_DIR: allure-history
+          
