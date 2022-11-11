@@ -13,7 +13,7 @@ jobs:
   testing:
     runs-on: self-hosted
     steps:
-    # Actualization
+    # Actualization repo
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checks-out our repository
       uses: actions/checkout@master
