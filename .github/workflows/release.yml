@@ -2,8 +2,9 @@
 # Copyright (C) 2020 Tymko Oleg <olegtymko@yandex.ru> and contributors
 # All rights reserved.
 
+# Creating and changing Release events only
 name: Preprocessing CF and publish to Releases
-# Creating and changing Release evrnts only
+
 on:
     release:
         types: [published, edited]
@@ -18,6 +19,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Build CF
+        shell: cmd
         run: |
           mkdir ./build 
           vrunner compile -s ${{ env.BASE_PATH }}/src/cf -o  ${{ env.BASE_PATH }}/build/1Cv8.cf
