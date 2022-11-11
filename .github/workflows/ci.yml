@@ -45,7 +45,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Actualization
-      - uses: actions/checkout@master
+      - name: Checks-out our repository
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
       - name: Get current branch name
