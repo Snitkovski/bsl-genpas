@@ -13,24 +13,28 @@ jobs:
   testing:
     runs-on: self-hosted
     steps:
-      # Actualization
-      - uses: actions/checkout@master
+    # Actualization
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Checks-out our repository
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
       
-      # DB 1C creation
-      - name: DB initialization
-        run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
+    # DB 1C creation
+    - name: DB initialization
+      run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
 
-      - name: Syntax Check
-        run: vrunner syntax-check --settings ./vb-params.json
+    - name: Syntax Check
+      run: vrunner syntax-check --settings ./vb-params.json
 
-      - name: Module testing
-        run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
+    - name: Module testing
+      run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
 
-      - name: Allure report - sending to artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: allure
-          path: build/allure
+    - name: Allure report - sending to artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: allure
+        path: build/allure
 
 
   # sonar-analyze:
