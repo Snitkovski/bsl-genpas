@@ -65,14 +65,14 @@ jobs:
       # - name: SonarQube analyze (branch)
         # if: github.event_name == 'push'
         # run: sonar-scanner
-            # -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-            # -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+            # -Dsonar.login=${{ secrets.SONAR_GHA_TOKEN }}
+            # -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
             # -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
 
       - name: SonarQube analyze (branch)
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_GHA_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
 
