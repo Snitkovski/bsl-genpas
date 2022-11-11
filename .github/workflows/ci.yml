@@ -23,12 +23,15 @@ jobs:
     # DB 1C creation
     - name: DB initialization
       run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
+      shell: cmd
 
     - name: Syntax Check
       run: vrunner syntax-check --settings ./vb-params.json
+      shell: cmd
 
     - name: Module testing
       run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
+      shell: cmd
 
     - name: Allure report - sending to artifacts
       uses: actions/upload-artifact@master
