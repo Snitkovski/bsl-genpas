@@ -50,31 +50,34 @@ jobs:
         with:
           fetch-depth: 0
 
+      # -=-==-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-
+      # It really works - 1 !
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
-      - name: Get current branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+      # - name: Get current branch name
+        # shell: bash
+        # run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        # id: extract_branch
 
-      - name: Sonar-scanner install
-        uses: warchant/setup-sonar-scanner@v1
-        env:
-          # Set off installation security (at 2020-10-01)
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
-      - name: SonarQube analyze (branch)
-        if: github.event_name == 'push'
-        run: sonar-scanner
-            -Dsonar.login=${{ secrets.SONAR_GHA_TOKEN }}
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-            -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
-
-      # It really works !
-      # - name: SonarQube analyze (branch)
-        # uses: sonarsource/sonarqube-scan-action@master
+      # - name: Sonar-scanner install
+        # uses: warchant/setup-sonar-scanner@v1
         # env:
-          # SONAR_TOKEN: ${{ secrets.SONAR_GHA_TOKEN }}
-          # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          # Set off installation security (at 2020-10-01)
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      # - name: SonarQube analyze (branch)
+        # if: github.event_name == 'push'
+        # run: sonar-scanner
+            # -Dsonar.login=${{ secrets.SONAR_GHA_TOKEN }}
+            # -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            # -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
+
+      # -=-==-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-
+      # It really works - 2 !
+      - name: SonarQube analyze (branch)
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_GHA_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
 
   # allure:
