@@ -1,0 +1,35 @@
+# MIT License
+# Copyright (C) 2020 Tymko Oleg <olegtymko@yandex.ru> and contributors
+# All rights reserved.
+
+name: Preprocessing CF and publish to Releases
+# Creating and changing Release evrnts only
+on:
+    release:
+        types: [published, edited]
+
+env:
+  BASE_PATH: ./bsl-genpas
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Build CF
+        run: |
+          mkdir ./build 
+          vrunner compile -s ${{ env.BASE_PATH }}/src/cf -o  ${{ env.BASE_PATH }}/build/1Cv8.cf
+
+      - name: Artifacts Uploading
+        uses: actions/upload-artifact@master
+        with:
+          name: 1Cv8
+          path: ./build/*.cf
+      
+      - name: Uploading to Releases
+        uses: AButler/upload-release-assets@v1.0
+        with:
+          files: ./build/*.cf
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
