@@ -31,7 +31,7 @@ jobs:
           path: ./build/*.cf
       
       - name: Uploading to Releases
-        uses: AButler/upload-release-assets@v1.0
+        uses: AButler/upload-release-assets@master
         with:
           files: ./build/*.cf
           repo-token: ${{ secrets.GITHUB_TOKEN }}
