@@ -29,9 +29,9 @@ jobs:
       run: vrunner syntax-check --settings ./vb-params.json
       shell: cmd
 
-    - name: Module testing
-      run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
-      shell: cmd
+    # - name: Module testing
+      # run: vrunner xunit "${{ env.BASE_PATH }}/tests" --settings ./vb-params.json
+      # shell: cmd
 
     - name: Allure report - sending to artifacts
       uses: actions/upload-artifact@master
