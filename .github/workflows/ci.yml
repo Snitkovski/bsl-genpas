@@ -51,23 +51,29 @@ jobs:
           fetch-depth: 0
 
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
-      - name: Get current branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+      # - name: Get current branch name
+        # shell: bash
+        # run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        # id: extract_branch
 
-      - name: Sonar-scanner install
-        uses: warchant/setup-sonar-scanner@v1
-        env:
+      # - name: Sonar-scanner install
+        # uses: warchant/setup-sonar-scanner@v1
+        # env:
           # Set off installation security (at 2020-10-01)
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      # - name: SonarQube analyze (branch)
+        # if: github.event_name == 'push'
+        # run: sonar-scanner
+            # -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
+            # -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+            # -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
 
       - name: SonarQube analyze (branch)
-        if: github.event_name == 'push'
-        run: sonar-scanner
-            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-            -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
-            -Dsonar.branch.name=${{ steps.extract_branch.outputs.branch }}
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
 
   # allure:
