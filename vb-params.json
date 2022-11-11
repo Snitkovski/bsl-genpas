@@ -2,7 +2,7 @@
       "$schema": "https://raw.githubusercontent.com/vanessa-opensource/vanessa-runner/develop/vanessa-runner-schema.json",
       "default": {
           "--ibconnection": "/F./build/ib",
-          "--v8version": "8.3.17.154"
+          "--v8version": "8.3.18.1741"
       },
       "xunit": {
           "testsPath": "./tests",

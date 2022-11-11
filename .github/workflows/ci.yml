@@ -41,11 +41,11 @@ jobs:
 
 
   # sonar-analyze:
-    # if: github.repository == 'silverbulleters/bsl-actions-template'
-    # runs-on: ubuntu-18.04
+    # if: github.repository == 'Snitkovski/bsl-genpas'
+    # runs-on: ubuntu-latest
     # steps:
       # Actualization
-      # - uses: actions/checkout@v2
+      # - uses: actions/checkout@master
 
       # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
       # - name: Get current branch name
