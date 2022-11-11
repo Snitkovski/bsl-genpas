@@ -32,6 +32,7 @@ jobs:
           name: allure
           path: build/allure
 
+
   # sonar-analyze:
     # if: github.repository == 'silverbulleters/bsl-actions-template'
     # runs-on: ubuntu-18.04
