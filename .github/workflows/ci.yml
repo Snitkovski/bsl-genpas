@@ -22,11 +22,11 @@ jobs:
       
     # DB 1C creation
     - name: DB initialization
-      shell: cmd
+      shell: bash
       run: vrunner init-dev --src ${{ env.BASE_PATH }}/src/cf
 
     - name: Syntax Check
-      shell: cmd
+      shell: bash
       run: vrunner syntax-check --settings ./vb-params.json
 
     # - name: Module testing
