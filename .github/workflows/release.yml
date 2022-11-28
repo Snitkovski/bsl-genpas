@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Build CF
-        shell: cmd
+        shell: bash
         run: |
           mkdir ./build 
           vrunner compile -s ${{ env.BASE_PATH }}/src/cf -o  ${{ env.BASE_PATH }}/build/1Cv8.cf
